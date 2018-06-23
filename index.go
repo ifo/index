@@ -12,7 +12,7 @@ type Index struct {
 }
 
 func (i *Index) Add(doc string) {
-	str := RemoveNonAlphaNum(doc)
+	str := Normalize(doc)
 	fields := strings.Fields(str)
 	i.Documents = append(i.Documents, doc)
 	idx := len(i.Documents) - 1
@@ -24,10 +24,11 @@ func (i *Index) Add(doc string) {
 	}
 }
 
-func RemoveNonAlphaNum(s string) string {
-	reg, err := regexp.Compile("[^a-zA-Z0-9 \n]+")
+func Normalize(s string) string {
+	lower := strings.ToLower(s)
+	reg, err := regexp.Compile("[^a-z0-9 \n]+")
 	if err != nil {
 		log.Fatal(err)
 	}
-	return reg.ReplaceAllString(s, "")
+	return reg.ReplaceAllString(lower, "")
 }
