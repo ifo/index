@@ -24,6 +24,17 @@ func (i *Index) Add(doc string) {
 	}
 }
 
+// FindOne returns a map of all documents which contain the given term.
+// The term is normalized before searching the index.
+func (i *Index) FindOne(term string) map[int]string {
+	norm := Normalize(term)
+	out := map[int]string{}
+	for idx := range i.Terms[norm] {
+		out[idx] = i.Documents[idx]
+	}
+	return out
+}
+
 func Normalize(s string) string {
 	lower := strings.ToLower(s)
 	reg, err := regexp.Compile("[^a-z0-9 \n]+")
