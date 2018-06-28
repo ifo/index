@@ -7,8 +7,8 @@ import (
 )
 
 type Index struct {
-	Terms     map[string]map[int]struct{}
 	Documents []string
+	Terms     map[string]map[int]struct{}
 }
 
 func (i *Index) Add(doc string) {
