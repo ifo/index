@@ -6,11 +6,13 @@ import (
 	"strings"
 )
 
+// Index is a collection of documents and terms from those documents.
 type Index struct {
 	Documents []string
 	Terms     map[string]map[int]struct{}
 }
 
+// Add inserts a document into the index and creates all terms from that document.
 func (i *Index) Add(doc string) {
 	str := Normalize(doc)
 	fields := strings.Fields(str)
@@ -69,6 +71,7 @@ func (i *Index) FindAny(terms []string) map[int]string {
 	return out
 }
 
+// Normalize lowercases everything and then removes all non-alphanumeric or space characters.
 func Normalize(s string) string {
 	lower := strings.ToLower(s)
 	reg, err := regexp.Compile("[^a-z0-9 \n]+")
